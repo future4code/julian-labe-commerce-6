@@ -17,13 +17,16 @@ const ContainerCarrinho = styled.div`
 
 `
 const Titulo = styled.h2`
-margin: 0 auto;
+    margin: 0 auto;
+    text-align: center;
 `
 
 
- class Carrinho extends React.Component {
-    
-
+class Carrinho extends React.Component {  
+state = {
+carrinho: {
+},
+}
 
     render() {
         return(

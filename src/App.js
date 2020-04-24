@@ -1,10 +1,26 @@
 import React from 'react';
 import './App.css';
+import Filtros from './components/Filtros.js'
 import styled from 'styled-components';
-
-import Carrinho from './components/Carrinho.js';
+// import Carrinho from './components/Carrinho.js';
 import Display from './components/Display.js';
+import imgCabecalho from './img/imgCebalho.jpg'
 
+const TodoOAplicativo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width:99vw;
+  color: #001b20;
+  background-color:#e8fcff;
+`
+const Cabecalho = styled.header`
+  width: 100vw;
+  height: 15vw;
+`
+const ImagemPontas = styled.img`
+  width: 100%;
+  height: 100%;
+`
 const CorpoDoSite = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -22,16 +38,10 @@ const BotaoCarrinho = styled.img `
   right: 2vw;
   width: 4vw;
 `
-
-const CorpoFiltros = styled.div`
-display: flex;
-flex-flow: column wrap;
-border: 1px solid black;
-width: 25vw;
-height: 95vh;
-padding-left: 10px;
-padding-right: 10px;
+const Produtos = styled.div `
 `
+
+
 
 class App extends React.Component {
   
@@ -48,9 +58,14 @@ class App extends React.Component {
       { nome: 'Camiseta Algum Lugar', preço: '45.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_algum_lugar_masculino_329_3_20190714011026.jpg' },
 
       { nome: 'Camiseta Bolhas De Sabão', preço: '65.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_bolhas_de_sabao_masculino_333_1_20190709220835.jpg' },
-      { nome: 'Camiseta Timeline Big Bang', preço: '80.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_timeline_big_bang_1202_1_20190804143245.jpg' },
+      
+      { nome: 'Camiseta Timeline Big Bang', preço: '85.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_timeline_big_bang_1202_1_20190804143245.jpg' },
 
       { nome: 'Camiseta Saturn V', preço: '74.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_saturn_v_masculino_933_3_20190714005435.jpg' },
+
+      { nome: 'Camiseta Dognauta', preço: '48.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_dognauta_1487_1_20191128183415.jpg' },
+
+      { nome: 'Camiseta Nebulosa de Órion', preço: '55.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_nebulosa_de_orion_masculino_363_3_20190714005431.jpg' },
     ],
     inputValorMinimo: '',
     inputValorMaximo: '',
@@ -61,11 +76,20 @@ class App extends React.Component {
 
     ]
   };
-
-  onChangeInputMaximo = (event) => {
-    this.setState({inputValorMaximo: event.target.value})
-  }
   
+  onChangeInputMaximo = () => {
+    console.log('funciona')
+  //   this.setState({inputValorMaximo: event.target.value})    
+  //   let produtosComValorMaximo = this.state.produtos.filter((produto) => {
+  //     if (this.state.inputValorMaximo <= produto.preço) {
+  //     return produto
+  //   }
+  //   return false
+  // } 
+  // )
+  // this.setState({produtos: produtosComValorMaximo})
+  } 
+
   onChangeInputMinimo = (event) => {
     this.setState({inputValorMinimo: event.target.value})
     console.log(this.state.inputValorMinimo)
@@ -74,43 +98,40 @@ class App extends React.Component {
   mostrarCarrinho = () => {
     this.setState({mostracarrinho : !this.state.mostracarrinho})
   }
-  
 
+  
+  
   render(){
 
       return (
-        <CorpoDoSite>
-          <CorpoFiltros>          
-          <h1>Filtros</h1>
-          
-          <p>Valor Máximo</p>
-          <input type="number" 
-          value={this.state.inputValorMaximo} 
-          onChange={this.onChangeInputMaximo} />
-          
-          <p>Valor Mínimo</p>
-          <input type="number" 
-          value={this.state.inputValorMinimo}
-          onChange={this.onChangeInputMinimo}/>
-          
-          <p>Buscar Produto</p>
-          <input type="text" />
-          
-          </CorpoFiltros>
-          
-          <Display 
-            listaDeProdutos={this.state.produtos} 
-          />
-
-          <Carrinho 
-            mostrar={this.state.mostracarrinho}/>
-
-          < BotaoCarrinho 
-            onClick = {this.mostrarCarrinho} 
-            src = 'https://img.freepik.com/icones-gratis/carrinho-de-compras-1_318-10653.jpg?size=338&ext=jpg'
-          / >
-        </CorpoDoSite>
-      )      
+        <TodoOAplicativo>
+          <Cabecalho>
+            <ImagemPontas src={imgCabecalho} alt={"Cabeçalho"}/>
+          </Cabecalho>
+          <CorpoDoSite>
+            <Filtros
+              inputValorMaximo={this.state.inputValorMaximo}
+              inputValorMinimo={this.state.inputValorMinimo}
+              funcaoChangeVMaximo={this.onChangeInputMaximo}
+              funcaoChangeVMinimo={this.onChangeInputMinimo} />          
+            <Produtos>
+              <Display 
+                listaDeProdutos={this.state.produtos}
+                valorMaximo={this.state.inputValorMaximo}
+                mostrar={this.state.mostracarrinho}
+              />
+  
+              {/* <Carrinho 
+                mostrar={this.state.mostracarrinho}/> */}
+  
+              < BotaoCarrinho 
+                onClick = {this.mostrarCarrinho} 
+                src = 'https://img.freepik.com/icones-gratis/carrinho-de-compras-1_318-10653.jpg?size=338&ext=jpg'
+              / >
+            </Produtos>
+          </CorpoDoSite>
+        </TodoOAplicativo>
+      )    
   }
 }
 

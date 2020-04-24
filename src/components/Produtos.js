@@ -5,20 +5,22 @@ const ContainerProduto = styled.div `
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    margin: 0.5vw;
-    margin-bottom: 1vw;
-    border: 1px dotted #36252f;
-    padding: 0.4vw;
-`
-const BotaoAdicionaCarrinho = styled.button`
-    background-color: black;
-    color: white; 
-    border-radius: 20%;
-    height: 2vw;
 `
 const FotoProduto = styled.img`
     height:15vw;
     width: 15vw;
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -ms-transition: all 1s ease; /* IE 9 */
+    -o-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+    :hover {
+        -webkit-transform:scale(3); /* Safari and Chrome */
+        -moz-transform:scale(3); /* Firefox */
+        -ms-transform:scale(3); /* IE 9 */
+        -o-transform:scale(3); /* Opera */
+        transform:scale(3);
+    };
 `
 const PrecoProduto = styled.p `
     margin: 0.5vw;
@@ -35,33 +37,34 @@ class Produtos extends React.Component {
         carrinho: {
         },
     }
+// componentDidUpdate(){
+//     const novoProduto = this.state
+//     localStorage.setItem("produto", JSON.stringify)
+// }
+
+
 
 adicionarAoCarrinho = () => {
-        const novoProduto = {
-    nome: '',
-    preço: '',
-    id: Date.now(),
-    }
-    
-    const listaDoCarrinho = [...novoProduto,
-    this.props.arr]
+    console.log(this.props.titulo)
 
-    this.setState({carrinho: listaDoCarrinho})
-    console.log(listaDoCarrinho)
+
+   //JSON.stringify() objetos e arrays em string
+   // localStorage.setItem("produtos", "preco")
+    // localStorage.getItem("produtos")
+   //JSON.parse() transforma string em objetos e arrays
 }
 
 
-    
+
     render() {
         return (
             <ContainerProduto>
                 <FotoProduto src={this.props.foto}/>
                 <TituloProduto>{this.props.titulo}</TituloProduto>
                 <PrecoProduto> R$ {this.props.valor} </PrecoProduto>
-                <BotaoAdicionaCarrinho OnClick={this.adicionaCarrinho}>Adicionar ao carrinho</BotaoAdicionaCarrinho>
             </ContainerProduto>
         )
     }
 }
 
-export default Produtos
+export default Produtos;
