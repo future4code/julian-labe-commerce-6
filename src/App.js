@@ -5,18 +5,24 @@ import styled from 'styled-components';
 // import Carrinho from './components/Carrinho.js';
 import Display from './components/Display.js';
 import imgCabecalho from './img/imgCebalho.jpg'
+import imgRodape from './img/rodape.jpg'
 
 const TodoOAplicativo = styled.div`
   display: flex;
   flex-direction: column;
-  width:99vw;
-  color: #001b20;
-  background-color:#e8fcff;
+  width:100vw;
+  color: #001020;
+  background-color:#ddeeff;
 `
 const Cabecalho = styled.header`
   width: 100vw;
   height: 15vw;
 `
+const Rodape = styled.header `
+  width: 100vw;
+  height: 12vw;
+`
+
 const ImagemPontas = styled.img`
   width: 100%;
   height: 100%;
@@ -25,7 +31,7 @@ const CorpoDoSite = styled.div`
   display: flex;
   flex-wrap: nowrap;
   padding: 0.5vw;
-  width: 99vw;
+  width: 100vw;
   justify-content: space-between;
 ` 
 const BotaoCarrinho = styled.img `
@@ -130,6 +136,9 @@ class App extends React.Component {
               / >
             </Produtos>
           </CorpoDoSite>
+           <Rodape>
+            <ImagemPontas src={imgRodape} alt={"Rodape"}/>
+          </Rodape>
         </TodoOAplicativo>
       )    
   }

@@ -10,8 +10,8 @@ width: 25vw;
 height: 95vh;
 padding-left: 10px;
 padding-right: 10px;
-background-color: #001b20;
-color: #e8fcff;
+background-color: #001020;
+color: #ddeeff;
 padding: 1vw;
 `
 

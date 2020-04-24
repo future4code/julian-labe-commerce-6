@@ -14,7 +14,7 @@ const CardProduto = styled.div`
     align-items: center;
     margin: 0.5vw;
     margin-bottom: 1vw;
-    border: 1px solid #001b20;
+    border: 1px solid #001020;
     box-shadow:-1px 2px 5px 0px rgba(50, 50, 50, 0.75);
     padding: 0.4vw;
 `
@@ -45,8 +45,8 @@ const Ordenar = styled.select`
     -webkit-appearance: none;  /* Remove estilo padrão do Chrome */
    -moz-appearance: none; /* Remove estilo padrão do FireFox */
    appearance: none; /* Remove estilo padrão do FireFox*/
-   background-color: #001b20;
-   color: #e8fcff;
+   background-color: #001020;
+   color: #ddeeff;
    padding: 0.5vw;
    cursor: pointer;
 `
@@ -65,8 +65,8 @@ const Titulo = styled.p `
 const ContainerCarrinho = styled.div`
     display:flex;
     flex-direction: column;
-    background-color: #001b20;
-    color: #e8fcff;
+    background-color: #001020;
+    color: #ddeeff;
     border: 1px solid black;
     padding: 1vw;
     width: 35vw;
@@ -83,8 +83,8 @@ const BotaoAdicionarCarrinho = styled.button`
     width:12vw;
     border-radius: 20%;
     height: 2vw;
-    background-color: #001b20;
-    color: #e8fcff;
+    background-color: #001020;
+    color: #ddeeff;
     cursor: pointer;
 `
 
