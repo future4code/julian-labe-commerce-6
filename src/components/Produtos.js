@@ -43,15 +43,6 @@ class Produtos extends React.Component {
 //     const novoProduto = this.state
 //     localStorage.setItem("produto", JSON.stringify)
 // }
-
-
-
-adicionarAoCarrinho = () => {
-    console.log(this.props.titulo)
-}
-
-
-
     render() {
         return (
             <ContainerProduto>

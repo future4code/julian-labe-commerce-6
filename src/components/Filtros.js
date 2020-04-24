@@ -25,6 +25,14 @@ onChangeInputMaximo () {
 }
 
 
+onClickBuscar = () => {
+    console.log('buscou')
+}
+
+
+
+
+
     render () {
         return (
     <CorpoFiltros>          
@@ -40,6 +48,7 @@ onChangeInputMaximo () {
 
         <p>Buscar Produto</p>
         <input type="text" />
+        <button onClick={this.onClickBuscar}>Buscar</button>
     </CorpoFiltros>
 )
 }

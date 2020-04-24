@@ -87,8 +87,10 @@ const Ordenar = styled.select`
    background-color: #001020;
    color: #ddeeff;
    padding: 0.5vw;
+   font-size:1vw;
    cursor: pointer;
 `
+
 const TituloCarrinho = styled.p` 
     font-weight: bold;
     font-size: 2vw;
@@ -96,11 +98,25 @@ const TituloCarrinho = styled.p`
     margin-bottom: 2vw;
 `
 
+const CorpoFiltros = styled.div`
+display: flex;
+flex-flow: column wrap;
+border: 1px solid black;
+width: 25vw;
+height: 95vh;
+padding-left: 10px;
+padding-right: 10px;
+background-color: #001020;
+color: #ddeeff;
+padding: 1vw;
+`
+
 const Titulo = styled.p ` 
     font-weight: bold;
     font-size: 2vw;
     margin: 0 12vw;
 `
+
 const ContainerCarrinho = styled.div`
     display:flex;
     flex-direction: column;
@@ -126,60 +142,95 @@ const BotaoAdicionarCarrinho = styled.button`
     cursor: pointer;
     font-size:1.2vw;
 `
+
+const BotaoFiltros = styled.button`
+     width:12vw;
+    border-radius: 20%;
+    background-color: #001020;
+    color: #ddeeff;
+    cursor: pointer;
+    font-size:1.2vw;
+  `
+
 class App extends React.Component {
   
   state = {
     produtos: [
-      { nome: 'Camiseta Astrobiologia', preço: '70.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_astrobiologia_953_1_20190801150030.jpg' },
-      { nome: 'Camiseta Laika', preço: '80.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_laika_1485_1_20191128183401.jpg' },
-      { nome: 'Camiseta Gatonauta', preço: '50.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_gatonauta_masculino_355_1_20190702165338.jpg' },
-      { nome: 'Camiseta Buraco Negro', preço: '75.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_buraco_negro_masculino_1023_1_20190627001622.jpg' },
-      { nome: 'Camiseta Algum Lugar', preço: '45.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_algum_lugar_masculino_329_3_20190714011026.jpg' },
-      { nome: 'Camiseta Bolhas De Sabão', preço: '65.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_bolhas_de_sabao_masculino_333_1_20190709220835.jpg' },      
-      { nome: 'Camiseta Timeline Big Bang', preço: '85.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_timeline_big_bang_1202_1_20190804143245.jpg' },
-      { nome: 'Camiseta Saturn V', preço: '74.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_saturn_v_masculino_933_3_20190714005435.jpg' },
-      { nome: 'Camiseta Dognauta', preço: '48.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_dognauta_1487_1_20191128183415.jpg' },
-      { nome: 'Camiseta Nebulosa de Órion', preço: '55.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_nebulosa_de_orion_masculino_363_3_20190714005431.jpg' },
+      { nome: 'Camiseta Astrobiologia', preço: '70.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_astrobiologia_953_1_20190801150030.jpg', id: 1, },
+      { nome: 'Camiseta Laika', preço: '80.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_laika_1485_1_20191128183401.jpg', id: 2, },
+      { nome: 'Camiseta Gatonauta', preço: '50.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_gatonauta_masculino_355_1_20190702165338.jpg', id: 3, },
+      { nome: 'Camiseta Buraco Negro', preço: '75.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_buraco_negro_masculino_1023_1_20190627001622.jpg', id: 4, },
+      { nome: 'Camiseta Algum Lugar', preço: '45.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_algum_lugar_masculino_329_3_20190714011026.jpg', id: 5, },
+      { nome: 'Camiseta Bolhas De Sabão', preço: '65.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_bolhas_de_sabao_masculino_333_1_20190709220835.jpg', id: 6, },      
+      { nome: 'Camiseta Timeline Big Bang', preço: '85.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_timeline_big_bang_1202_1_20190804143245.jpg', id: 7, },
+      { nome: 'Camiseta Saturn V', preço: '74.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_saturn_v_masculino_933_3_20190714005435.jpg', id: 8, },
+      { nome: 'Camiseta Dognauta', preço: '48.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_dognauta_1487_1_20191128183415.jpg', id: 9, },
+      { nome: 'Camiseta Nebulosa de Órion', preço: '55.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_nebulosa_de_orion_masculino_363_3_20190714005431.jpg', id: 10, },
     ],
-    inputValorMinimo: '',
-    inputValorMaximo: '',
-    inputBuscarProduto: '',
+    inputValorMinimo: '0',
+    inputValorMaximo: '0',
+    inputBuscarProduto: 'Nenhum',
     ordem: 'nenhuma',
     mostracarrinho: false,
-    carrinho: [
-
-    ]
+    carrinho: [],
   };
 
   componentDidUpdate(){
     console.log(this.state.ordem)
   }
   
-  onChangeInputMaximo = () => {
-    console.log('funciona')
-  //   this.setState({inputValorMaximo: event.target.value})    
-  //   let produtosComValorMaximo = this.state.produtos.filter((produto) => {
-  //     if (this.state.inputValorMaximo <= produto.preço) {
-  //     return produto
-  //   }
-  //   return false
-  // } 
-  // )
-  // this.setState({produtos: produtosComValorMaximo})
+  onChangeInputMaximo = (event) => {
+    this.setState({inputValorMaximo: event.target.value})
   } 
+  
+  componentDidMount () {
+    localStorage.setItem('camisa', JSON.stringify(this.state.produtos))
+  }
+
+
+  onChangeBuscar = (event) => {
+    this.setState({inputBuscarProduto: event.target.value})
+  
+  }
 
   onChangeInputMinimo = (event) => {
     this.setState({inputValorMinimo: event.target.value})
-    console.log(this.state.inputValorMinimo)
   }
 
   mostrarCarrinho = () => {
-    this.setState({mostracarrinho : !this.state.mostracarrinho
-  
-  render(){
-      
-    let produtosOrdenados
+  this.setState({mostracarrinho : !this.state.mostracarrinho})
+  }
 
+
+  FiltrarNumero = () => {
+  const produtosFiltrados = this.state.produtos.filter((produto) => {
+      if (produto.preço >= this.state.inputValorMaximo) {
+        return produto
+      }
+    })
+    this.setState({produtos: produtosFiltrados})
+    this.setState({inputValorMaximo: '0'})
+    this.setState({inputValorMinino: '0'})
+  }
+
+  filtrarNome = () => {
+    const produtosFiltradosNome = this.state.produtos.filter((produto) => {
+      return produto.nome.toLowerCase().indexOf(this.state.inputBuscarProduto.toLowerCase()) > -1;
+    })
+    this.setState({produtos: produtosFiltradosNome})
+    this.setState({inputBuscarProduto: 'Nenhum'})
+  }
+
+  limparFiltro = () => {
+    const filtroString = localStorage.getItem("camisa")
+    const filtroLimpo = JSON.parse('filtroString')
+    console.log(filtroLimpo)
+  }
+
+  render(){
+    console.log(this.state.produtos)
+    let produtosOrdenados
+    
     const crescente = this.state.produtos.map((produto) => {
       return (produto)
     }).sort(function (a, b) {
@@ -206,13 +257,16 @@ class App extends React.Component {
                     foto={produto.url}
                     titulo={produto.nome}
                     valor={produto.preço}
+                    id={produto.id}
                 />
-                <BotaoAdicionarCarrinho onClick={this.onClickAdicionarCarrinho}>
-                    Adicionar ao carrinho
+                <BotaoAdicionarCarrinho 
+                  OnClick={e => this.setState({ordem: e.target.value})}
+                >
+                  Adicionar ao carrinho
                 </BotaoAdicionarCarrinho>
                 </CardProduto>
         }); 
-
+    
       return (
         <TodoOAplicativo>
           <Cabecalho>
@@ -220,12 +274,32 @@ class App extends React.Component {
           </Cabecalho>
           
           <CorpoDoSite>
-            <Filtros
-              inputValorMaximo={this.state.inputValorMaximo}
-              inputValorMinimo={this.state.inputValorMinimo}
-              funcaoChangeVMaximo={this.onChangeInputMaximo}
-              funcaoChangeVMinimo={this.onChangeInputMinimo} />          
-            
+            <CorpoFiltros>          
+              <h1>Filtros</h1><br /><br />
+                  
+            <h3>Valor Máximo3</h3>
+              <input type="number" 
+                  onChange={this.onChangeInputMaximo} /><br/>
+      
+              <h3>Valor Mínimo</h3>
+              <input type="number" 
+                  onChange={this.onChangeInputMinimo}/><br />
+              <button onClick={this.FiltrarNumero}>Buscar Valor</button>
+              
+              <h3>Buscar Produto</h3>
+              <input type="text" onChange={this.onChangeBuscar}/>
+              <BotaoFiltros onClick={this.filtrarNome}>Buscar Nome</BotaoFiltros>
+
+              <BotaoFiltros onClick={this.limparFiltro}>Limpar Filtros</BotaoFiltros>
+
+              <h3> Filtros Aplicados: </h3> 
+
+              <p> Nome Produto : ${this.state.inputBuscarProduto}</p><br/>
+              <p> Valor Mínimo : ${this.state.inputValorMinim}</p><br/>
+              <p> Valor Máximo : ${this.state.inputValorMaximo}</p><br/>
+
+
+            </CorpoFiltros>
             <Produtos>
                 <Catalogo>
                     <TituloCatalogo>
@@ -252,8 +326,7 @@ class App extends React.Component {
           / >
 
           </CorpoDoSite>
-           
-           <Rodape>
+          <Rodape>
             <ImagemPontas src={imgRodape} alt={"Rodape"}/>
           </Rodape>
         </TodoOAplicativo>
