@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Filtros from './components/Filtros.js'
 import styled from 'styled-components';
 import ProdutosNaTela from './components/Produtos'
 // import Carrinho from './components/Carrinho.js';
@@ -83,12 +82,12 @@ const Ordenar = styled.select`
     height: 2vw;
     -webkit-appearance: none;  /* Remove estilo padrão do Chrome */
    -moz-appearance: none; /* Remove estilo padrão do FireFox */
-   appearance: none; /* Remove estilo padrão do FireFox*/
-   background-color: #001020;
-   color: #ddeeff;
-   padding: 0.5vw;
-   font-size:1vw;
-   cursor: pointer;
+  appearance: none; /* Remove estilo padrão do FireFox*/
+  background-color: #001020;
+  color: #ddeeff;
+  padding: 0.5vw;
+  font-size:1vw;
+  cursor: pointer;
 `
 
 const TituloCarrinho = styled.p` 
@@ -103,7 +102,7 @@ display: flex;
 flex-flow: column wrap;
 border: 1px solid black;
 width: 25vw;
-height: 95vh;
+height: 150vh;
 padding-left: 10px;
 padding-right: 10px;
 background-color: #001020;
@@ -127,30 +126,43 @@ const ContainerCarrinho = styled.div`
     width: 35vw;
     height:95vh;
     display: ${props =>{
-       if (props.ismostra) {
-           return "flex"
-       } else {
-           return "none"
-       }
+      if (props.ismostra) {
+          return "flex"
+      } else {
+          return "none"
+      }
     }};    `
 
-const BotaoAdicionarCarrinho = styled.button`
+
+const BotaoFiltro = styled.button`
     width:12vw;
     border-radius: 20%;
-    background-color: #001020;
-    color: #ddeeff;
+    color: #001020;
+    background-color: #ddeeff;
     cursor: pointer;
     font-size:1.2vw;
+    margin-top:1rem;
+    margin-bottom:5rem;   
+
+  `
+
+const ParagrafoFiltros = styled.p`
+  margin-bottom:1rem;
 `
 
-const BotaoFiltros = styled.button`
-     width:12vw;
-    border-radius: 20%;
-    background-color: #001020;
-    color: #ddeeff;
-    cursor: pointer;
-    font-size:1.2vw;
-  `
+const TituloFiltrosAplicados = styled.h3`
+    margin-top:5rem;
+    margin-bottom:1rem;
+`
+
+const DisplayValores = styled.div`
+  display: grid;
+  height: 15vh;
+`
+const CabecalhoDoFiltro = styled.div`
+  display:grid;
+  grid-row-gap: 1rem;
+` 
 
 class App extends React.Component {
   
@@ -167,103 +179,151 @@ class App extends React.Component {
       { nome: 'Camiseta Dognauta', preço: '48.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_dognauta_1487_1_20191128183415.jpg', id: 9, },
       { nome: 'Camiseta Nebulosa de Órion', preço: '55.00', url: 'https://images.tcdn.com.br/img/img_prod/680735/camiseta_nebulosa_de_orion_masculino_363_3_20190714005431.jpg', id: 10, },
     ],
-    inputValorMinimo: '0',
-    inputValorMaximo: '0',
-    inputBuscarProduto: 'Nenhum',
+    filtrados: [],
+    valorMinimo:0,
+    valorMaximo:0,
+    inputBuscarProduto: '',
     ordem: 'nenhuma',
     mostracarrinho: false,
+    isfiltrado: false,
     carrinho: [],
+    inputValorMinimo: 0,
+    inputValorMaximo: 0,
   };
 
-  componentDidUpdate(){
-    console.log(this.state.ordem)
-  }
-  
   onChangeInputMaximo = (event) => {
     this.setState({inputValorMaximo: event.target.value})
   } 
-  
-  componentDidMount () {
-    localStorage.setItem('camisa', JSON.stringify(this.state.produtos))
-  }
 
+  onChangeInputMinimo = (event) => {
+    this.setState({valorMinimo: event.target.value })
+  }
 
   onChangeBuscar = (event) => {
     this.setState({inputBuscarProduto: event.target.value})
   
   }
+  
+  filtrarNumero = () => {
+    const filtragem = this.state.produtos.filter((produto) => {
 
-  onChangeInputMinimo = (event) => {
-    this.setState({inputValorMinimo: event.target.value})
-  }
+        if ((this.state.valorMaximo && this.state.valorMinimo) &&
+          (produto.preço >= this.state.valorMinimo && produto.preço <= this.state.valorMaximo)) {
+        return produto
 
-  mostrarCarrinho = () => {
-  this.setState({mostracarrinho : !this.state.mostracarrinho})
-  }
+        }  if((this.state.valorMaximo && this.state.valorMinimo === 0) &&
+              (produto.preço <= this.state.valorMaximo)){
+        return produto
 
-
-  FiltrarNumero = () => {
-  const produtosFiltrados = this.state.produtos.filter((produto) => {
-      if (produto.preço >= this.state.inputValorMaximo) {
+        }if ((this.state.valorMinimo && this.state.valorMaximo === 0) && 
+                (this.state.valorMinimo >= produto.preço)){
         return produto
       }
-    })
-    this.setState({produtos: produtosFiltrados})
-    this.setState({inputValorMaximo: '0'})
-    this.setState({inputValorMinino: '0'})
+
+      else if (this.state.valorMinimo ===0 && this.state.valorMaximo === 0){
+      }
+    });
+    this.setState({
+                    isfiltrado: true,
+                    filtrados: filtragem,
+                    valorMinimo: this.state.inputValorMinimo,
+                    valorMaximo: this.state.inputValorMaximo,
+                  })
   }
 
   filtrarNome = () => {
     const produtosFiltradosNome = this.state.produtos.filter((produto) => {
       return produto.nome.toLowerCase().indexOf(this.state.inputBuscarProduto.toLowerCase()) > -1;
     })
-    this.setState({produtos: produtosFiltradosNome})
-    this.setState({inputBuscarProduto: 'Nenhum'})
+    this.setState({
+                    filtrados: produtosFiltradosNome,
+                    inputBuscarProduto: 'Nenhum',
+                    isfiltrado: true,
+                  })
   }
 
   limparFiltro = () => {
-    const filtroString = localStorage.getItem("camisa")
-    const filtroLimpo = JSON.parse('filtroString')
-    console.log(filtroLimpo)
+    this.setState({
+                  filtrados: [],
+                  valorMaximo: 0,
+                  valorMinino: 0,
+                  isfiltrado: false,
+                  inputValorMaximo:0,
+                  inputValorMinimo:0,
+                })
   }
+  
+  mostrarCarrinho = () => {
+  this.setState({mostracarrinho : !this.state.mostracarrinho})
+  }
+ 
+  // funcaoAdicionarAoCarrinho = (arrayDoCarrinho) => {
+  //   let itensAoCarrinho = arrayDoCarrinho
+  //   this.setState({carrinho: itensAoCarrinho})
+  // }
 
-  render(){
-    console.log(this.state.produtos)
-    let produtosOrdenados
-    
-    const crescente = this.state.produtos.map((produto) => {
-      return (produto)
-    }).sort(function (a, b) {
-      return a.preço - b.preço
-    })
-
-    const decrescente = this.state.produtos.map((produto) => {
-      return (produto)
-    }).sort(function (a, b) {
-      return b.preço - a.preço
-    })
-
-    if (this.state.ordem === 'crescente') {
-      produtosOrdenados = crescente
-    } else if (this.state.ordem === 'decrescente') {
-      produtosOrdenados = decrescente
-    } else{
-      produtosOrdenados = this.state.produtos
-    }
+    render() {
       
-    const produtosSite = produtosOrdenados.map((produto) => {
+      let produtosMostrados
+      console.log('Ele é filtrado?' + this.state.isfiltrado)
+      console.log('O valor do input Máximo é '+ this.state.inputValorMaximo)
+      console.log('O valor máximo do filtro é ' + this.state.valorMaximo)
+      console.log('O valor do input Mínimo é ' + this.state.inputValorMinimo)
+      console.log('O valor mínimo do filtro é ' + this.state.valorMinimo)
+      console.log('A array de filtrados ficou assim' + this.state.filtrados)
+
+    if (this.state.isfiltrado === false){
+      const crescente = this.state.produtos.map((produto) => {
+        return (produto)
+      }).sort(function (a, b) {
+        return a.preço - b.preço
+      })
+
+      const decrescente = this.state.produtos.map((produto) => {
+        return (produto)
+      }).sort(function (a, b) {
+        return b.preço - a.preço
+      })
+    
+      if (this.state.ordem === 'crescente') {
+        produtosMostrados = crescente
+      } else if (this.state.ordem === 'decrescente') {
+        produtosMostrados = decrescente
+      } else{
+        produtosMostrados = this.state.produtos
+      }
+    }
+    else {
+      const crescente = this.state.filtrados.map((produto) => {
+        return (produto)
+      }).sort(function (a, b) {
+        return a.preço - b.preço
+      })
+
+      const decrescente = this.state.filtrados.map((produto) => {
+        return (produto)
+      }).sort(function (a, b) {
+        return b.preço - a.preço
+      })
+
+      if (this.state.ordem === 'crescente') {
+        produtosMostrados = crescente
+      } else if (this.state.ordem === 'decrescente') {
+        produtosMostrados = decrescente
+      } else{
+        produtosMostrados = this.state.filtrados
+      }  
+    }
+    
+    const produtosSite = produtosMostrados.map((produto) => {
             return <CardProduto >
                 <ProdutosNaTela key
                     foto={produto.url}
                     titulo={produto.nome}
                     valor={produto.preço}
                     id={produto.id}
-                />
-                <BotaoAdicionarCarrinho 
-                  OnClick={e => this.setState({ordem: e.target.value})}
-                >
-                  Adicionar ao carrinho
-                </BotaoAdicionarCarrinho>
+                    onClick={this.funcaoAdicionarAoCarrinho}
+                />                
                 </CardProduto>
         }); 
     
@@ -274,37 +334,41 @@ class App extends React.Component {
           </Cabecalho>
           
           <CorpoDoSite>
-            <CorpoFiltros>          
-              <h1>Filtros</h1><br /><br />
+            <CorpoFiltros>
+              <CabecalhoDoFiltro>
+                          
+              <h1>Filtros</h1>
                   
-            <h3>Valor Máximo3</h3>
+              <h3>Valor Máximo </h3>
               <input type="number" 
-                  onChange={this.onChangeInputMaximo} /><br/>
+                  onChange={this.onChangeInputMaximo} />
       
-              <h3>Valor Mínimo</h3>
+              <h3>Valor Mínimo </h3>
               <input type="number" 
-                  onChange={this.onChangeInputMinimo}/><br />
-              <button onClick={this.FiltrarNumero}>Buscar Valor</button>
-              
-              <h3>Buscar Produto</h3>
+                  onChange={this.onChangeInputMinimo} />
+              <BotaoFiltro onClick={this.filtrarNumero}>Buscar Valor</BotaoFiltro>
+
+              </CabecalhoDoFiltro>
+
+              <TituloFiltrosAplicados>Buscar Produto</TituloFiltrosAplicados>
               <input type="text" onChange={this.onChangeBuscar}/>
-              <BotaoFiltros onClick={this.filtrarNome}>Buscar Nome</BotaoFiltros>
+              <BotaoFiltro onClick={this.filtrarNome}>Buscar Nome</BotaoFiltro>
 
-              <BotaoFiltros onClick={this.limparFiltro}>Limpar Filtros</BotaoFiltros>
+              <BotaoFiltro onClick={this.limparFiltro}>Limpar Filtros</BotaoFiltro>
 
-              <h3> Filtros Aplicados: </h3> 
-
-              <p> Nome Produto : ${this.state.inputBuscarProduto}</p><br/>
-              <p> Valor Mínimo : ${this.state.inputValorMinim}</p><br/>
-              <p> Valor Máximo : ${this.state.inputValorMaximo}</p><br/>
-
+              <TituloFiltrosAplicados> Filtros Aplicados: </TituloFiltrosAplicados> 
+              <DisplayValores>
+              <ParagrafoFiltros> Nome Produto : {this.state.inputBuscarProduto}</ParagrafoFiltros>
+              <ParagrafoFiltros> Valor Mínimo : {this.state.valorMinimo}</ParagrafoFiltros>
+              <ParagrafoFiltros> Valor Máximo : {this.state.valorMaximo}</ParagrafoFiltros>
+              </DisplayValores>
 
             </CorpoFiltros>
+            
             <Produtos>
                 <Catalogo>
                     <TituloCatalogo>
-                        <Titulo>Quantidade de Produtos: {this.state.produtos.length}</Titulo> 
-                        <Ordenar onChange = {e => this.setState({ordem: e.target.value})}>
+                        <Ordenar onChange={e => this.setState({ ordem: e.target.value })}>
                             <option value="nenhuma">Ordenar</option>
                             <option value="crescente">Preço: Crescente</option>
                             <option value="decrescente">Preço: Decrescente</option>
@@ -318,19 +382,20 @@ class App extends React.Component {
             < ContainerCarrinho ismostra = {this.state.mostracarrinho} >
                     <TituloCarrinho>Carrinho:</TituloCarrinho>
                     <p>Total:<strong>R$ 0.00</strong></p>
+                    <div>{this.state.carrinho}</div>
             </ContainerCarrinho> 
 
-            < BotaoCarrinho 
+            <BotaoCarrinho 
             onClick = {this.mostrarCarrinho} 
-            src = 'https://img.freepik.com/icones-gratis/carrinho-de-compras-1_318-10653.jpg?size=338&ext=jpg'
-          / >
+            src = 'https://img.freepik.com/icones-gratis/carrinho-de-compras-1_318-10653.jpg?size=338&ext=jpg'/>
 
           </CorpoDoSite>
           <Rodape>
             <ImagemPontas src={imgRodape} alt={"Rodape"}/>
           </Rodape>
         </TodoOAplicativo>
-      )    
+    )
+        
   }
 }
 

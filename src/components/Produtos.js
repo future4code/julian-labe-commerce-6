@@ -27,28 +27,50 @@ const PrecoProduto = styled.p `
     font-size:1vw;
 `
 
+const BotaoAdicionarCarrinho = styled.button`
+    width:12vw;
+    border-radius: 20%;
+    background-color: #001020;
+    color: #ddeeff;
+    cursor: pointer;
+    font-size:1.2vw;
+`
+
 const TituloProduto = styled.p`
     margin: 0.5vw 0 0 0.5vw;
     font-size:1.5vw;
 `
 
-// const listaCarrinho = this.props.arr
-
 class Produtos extends React.Component {
     state = {
-        carrinho: {
-        },
+        carrinho: [
+            {
+                nome: '',
+                valor: '',
+            },
+        ]
+        }
+        
+    adicionarAoCarrinho = () => {
+    const produtoAoCarrinho = {
+        nome: this.props.titulo,
+        valor: this.props.valor,
     }
-// componentDidUpdate(){
-//     const novoProduto = this.state
-//     localStorage.setItem("produto", JSON.stringify)
-// }
+    const arrayDoCarrinho = [produtoAoCarrinho, ...this.state.carrinho]
+    this.setState({carrinho: arrayDoCarrinho})
+    }
+    
     render() {
+        console.log(this.state.carrinho)
         return (
             <ContainerProduto>
                 <FotoProduto src={this.props.foto}/>
                 <TituloProduto>{this.props.titulo}</TituloProduto>
                 <PrecoProduto> R$ {this.props.valor} </PrecoProduto>
+                <BotaoAdicionarCarrinho 
+                onClick={this.adicionarAoCarrinho}>
+                Adicionar ao carrinho
+                </BotaoAdicionarCarrinho>
             </ContainerProduto>
         )
     }
